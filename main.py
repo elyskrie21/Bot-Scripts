@@ -55,22 +55,19 @@ def get_stock_and_price(url):
             else:
                 itemStock = "OUT OF STOCK"
     except AttributeError:
-        print('product not found')
+        print('product not found') 
     itemData = {"name": itemName, "price": int(price), "stock": itemStock, "link": url, "image": image}
     requests.post("https://warm-ridge-24483.herokuapp.com/product", data=itemData)
     print(f'{itemName}, Stock: {itemStock}, Price: {price}, Link: {url}, Image: {image}\n')
 
 if __name__ == '__main__':
     while True:
-        try:
-            threadLocal = threading.local()
-            url = "https://www.newegg.com/p/pl?d=3060+ti"
-            ThreadPool(2).map(get_stock_and_price,get_links(url))
-            
-            del threadLocal
-            import gc
-            gc.collect() # a little extra insurance
-            time.sleep(10)
-        except:
-            print('there was an error')
+        threadLocal = threading.local()
+        url = "https://www.newegg.com/p/pl?d=3060+ti"
+        ThreadPool(2).map(get_stock_and_price,get_links(url))
+        
+        del threadLocal
+        import gc
+        gc.collect() # a little extra insurance
+        time.sleep(10)
 
