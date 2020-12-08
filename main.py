@@ -4,12 +4,16 @@ from multiprocessing.pool import ThreadPool, Pool
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import threading
+import os
 
 class Driver:
     def __init__(self):
         options = webdriver.ChromeOptions()
+        options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
         options.add_argument("--headless")
-        self.driver = webdriver.Chrome(r"./chromedriver.exe",options=options)
+        self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),options=options)
 
     def __del__(self):
         self.driver.quit() # clean up driver when we are cleaned up
@@ -49,12 +53,12 @@ def get_stock_and_price(url):
         else:
             itemStock = "OUT OF STOCK"
     itemData = {"Name": itemName, "Price": price, "Stock": itemStock}
-    requests.post("http://192.168.254.65:5000/", data=itemData)
+    #requests.post("http://192.168.254.65:5000/", data=itemData)
     print(f'{itemName}, Stock: {itemStock}, Price: {price}, Link: {url}\n')
 
 if __name__ == '__main__':
     url = "https://www.newegg.com/p/pl?d=3060+ti"
-    ThreadPool(4).map(get_stock_and_price,get_links(url))
+    ThreadPool(2).map(get_stock_and_price,get_links(url))
     
     del threadLocal
     import gc
