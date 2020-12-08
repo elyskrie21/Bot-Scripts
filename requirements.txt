@@ -47,3 +47,4 @@ virtualenv==20.2.2
 virtualenv-clone==0.5.4
 webdriver-manager==3.2.2
 Werkzeug==1.0.1
+APScheduler==3.0.0
