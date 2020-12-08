@@ -54,7 +54,7 @@ def get_stock_and_price(url):
         else:
             itemStock = "OUT OF STOCK"
     itemData = {"name": itemName, "price": price, "stock": itemStock, "link": url, "image": image}
-    #requests.post("http://192.168.254.65:5000/", data=itemData)
+    requests.post("https://warm-ridge-24483.herokuapp.com/product", data=itemData)
     print(f'{itemName}, Stock: {itemStock}, Price: {price}, Link: {url}, Image: {image}\n')
 
 if __name__ == '__main__':
