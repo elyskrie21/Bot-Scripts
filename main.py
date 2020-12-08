@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import threading
 import os
+from apscheduler.schedulers.blocking import BlockingScheduler  
+
+sched = BlockingScheduler()
 
 class Driver:
     def __init__(self):
@@ -41,6 +44,7 @@ def get_stock_and_price(url):
     if sauce.select_one(".product-title"):
         itemName = sauce.select_one(".product-title").text
         price = sauce.select_one(".price-current").text
+        image = sauce.select_one(".product-view-img-original")['src']
         if sauce.select_one(".btn-primary"):
             itemStock = "IN STOCK"
         else:
@@ -48,15 +52,17 @@ def get_stock_and_price(url):
     else:
         itemName = sauce.select_one("h1").text
         price = sauce.select_one(".current").text.replace('\n', '').strip('Now:  ')
+        image = sauce.select_one(".checkedimg")['src']
         if sauce.select_one(".atnPrimary").text == "ADD TO CART":
             itemStock = "IN STOCK"
         else:
             itemStock = "OUT OF STOCK"
-    itemData = {"Name": itemName, "Price": price, "Stock": itemStock}
+    itemData = {"name": itemName, "price": price, "stock": itemStock, "link": url, "image": image}
     #requests.post("http://192.168.254.65:5000/", data=itemData)
-    print(f'{itemName}, Stock: {itemStock}, Price: {price}, Link: {url}\n')
+    print(f'{itemName}, Stock: {itemStock}, Price: {price}, Link: {url}, Image: {image}\n')
 
-if __name__ == '__main__':
+@sched.scheduled_job('interval', minutes=3) 
+def scheduled_jop():
     url = "https://www.newegg.com/p/pl?d=3060+ti"
     ThreadPool(2).map(get_stock_and_price,get_links(url))
     
