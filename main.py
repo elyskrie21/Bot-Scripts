@@ -1,13 +1,11 @@
 import requests
+import time
 from urllib.parse import urljoin
 from multiprocessing.pool import ThreadPool, Pool
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import threading
 import os
-from apscheduler.schedulers.blocking import BlockingScheduler  
-
-sched = BlockingScheduler()
 
 class Driver:
     def __init__(self):
@@ -61,10 +59,13 @@ def get_stock_and_price(url):
     #requests.post("http://192.168.254.65:5000/", data=itemData)
     print(f'{itemName}, Stock: {itemStock}, Price: {price}, Link: {url}, Image: {image}\n')
 
-@sched.scheduled_job('interval', minutes=1) 
-def scheduled_jop():
-    url = "https://www.newegg.com/p/pl?d=3060+ti"
-    ThreadPool(2).map(get_stock_and_price,get_links(url))
-
-sched.start()
+if __name__ == '__main__':
+    while True:
+        url = "https://www.newegg.com/p/pl?d=3060+ti"
+        ThreadPool(2).map(get_stock_and_price,get_links(url))
+        
+        del threadLocal
+        import gc
+        gc.collect() # a little extra insurance
+        time.sleep(10)
 
