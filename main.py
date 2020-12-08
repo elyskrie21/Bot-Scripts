@@ -70,3 +70,5 @@ def scheduled_jop():
     import gc
     gc.collect() # a little extra insurance
 
+sched.start()
+
