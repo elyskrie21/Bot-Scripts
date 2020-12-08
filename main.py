@@ -33,8 +33,6 @@ def get_driver():
         setattr(threadLocal, 'driver', driver)
     return driver.driver
 
-threadLocal = threading.local()
-
 def get_stock_and_price(url):
     driver = get_driver()
     driver.get(url)
@@ -61,6 +59,7 @@ def get_stock_and_price(url):
 
 if __name__ == '__main__':
     while True:
+        threadLocal = threading.local()
         url = "https://www.newegg.com/p/pl?d=3060+ti"
         ThreadPool(2).map(get_stock_and_price,get_links(url))
         
