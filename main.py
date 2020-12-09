@@ -5,9 +5,6 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import os
-from apscheduler.schedulers.blocking import BlockingScheduler
-
-sched = BlockingScheduler()
 
 options = webdriver.ChromeOptions()
 options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -70,9 +67,8 @@ def get_stock_and_price(url):
 
     return itemData
 
-
-@sched.scheduled_job('interval', minutes=3)
-def timed_job():
+if __name__ == "__main__":
+  while True:
     url = "https://www.newegg.com/p/pl?d=3060+ti"
     links = get_links(url)
     productData = []
@@ -81,7 +77,5 @@ def timed_job():
       item = get_stock_and_price(link)
       if type(item) is dict:
         post_product(item)
-        
-sched.start()
-  
+    time.sleep(30)
     
