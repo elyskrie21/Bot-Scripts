@@ -77,5 +77,4 @@ if __name__ == "__main__":
       item = get_stock_and_price(link)
       if type(item) is dict:
         post_product(item)
-    time.sleep(180)
     
