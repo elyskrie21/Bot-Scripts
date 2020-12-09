@@ -26,7 +26,7 @@ def post_product(data):
 
 def get_links(url):
   while True: 
-    res = requests.get(link)
+    res = requests.get(url)
     soup = BeautifulSoup(res.text,"lxml")
     titles = [urljoin(url,items.get("href")) for items in soup.find_all("a", {"class": "item-title"})]
 
