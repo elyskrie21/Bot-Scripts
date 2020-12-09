@@ -7,11 +7,11 @@ from selenium import webdriver
 import os
 
 options = webdriver.ChromeOptions()
-options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+#options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
 options.add_argument("--headless")
-driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
+driver = webdriver.Chrome(r'.\chromedriver', options=options)
 
 def post_product(data):
   url = "https://warm-ridge-24483.herokuapp.com/product"
