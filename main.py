@@ -14,7 +14,7 @@ options.add_argument("--headless")
 driver = webdriver.Chrome(r'.\chromedriver', options=options)
 
 def post_product(data):
-  url = "https://warm-ridge-24483.herokuapp.com/product"
+  url = "https://pc-part-stock.uc.r.appspot.com//product"
 
   headers = CaseInsensitiveDict()
   headers["Content-Type"] = "application/json"
