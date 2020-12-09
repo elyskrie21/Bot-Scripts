@@ -72,7 +72,7 @@ def get_stock_and_price(url):
 
 
 @sched.scheduled_job('interval', minutes=3)
-def timed_job:
+def timed_job():
     url = "https://www.newegg.com/p/pl?d=3060+ti"
     links = get_links(url)
     productData = []
