@@ -24,7 +24,7 @@ def post_product(data):
 
   print(resp.status_code)
 
-def get_links(link):
+def get_links(url):
   while True: 
     res = requests.get(link)
     soup = BeautifulSoup(res.text,"lxml")
@@ -77,5 +77,5 @@ if __name__ == "__main__":
       item = get_stock_and_price(link)
       if type(item) is dict:
         post_product(item)
-    time.sleep(30)
+    time.sleep(180)
     
